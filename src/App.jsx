@@ -51,18 +51,19 @@ function App() {
           userImg.crossOrigin = 'anonymous';
           userImg.onload = () => {
             try {
-              const imageBoxX = canvas.width * 0.275;
-              const imageBoxY = canvas.height * 0.292;
-              const imageBoxWidth = canvas.width * 0.45;
-              const imageBoxHeight = canvas.height * 0.24;
-              const margin = canvas.width * 0.01;
-              ctx.drawImage(
-                userImg,
-                imageBoxX + margin,
-                imageBoxY + margin,
-                imageBoxWidth - 2 * margin,
-                imageBoxHeight - 2 * margin
-              );
+              const imageBoxX = canvas.width * 0.270
+              const imageBoxY = canvas.height * 0.276;
+              const imageBoxWidth = canvas.width * 0.46
+              const imageBoxHeight = canvas.height * 0.29
+              const margin = canvas.width * 0.00
+
+              // Stretch the uploaded image to exactly fill the box (may distort image)
+ctx.drawImage(
+  userImg,
+  0, 0, userImg.width, userImg.height,
+  imageBoxX, imageBoxY,
+  imageBoxWidth, imageBoxHeight
+);
 
               if (userName.trim()) {
                 const nameBoxX = canvas.width * 0.25;
@@ -71,7 +72,8 @@ function App() {
                 const nameBoxHeight = canvas.height * 0.055;
                 ctx.save();
                 ctx.fillStyle = '#000';
-                ctx.font = `${Math.floor(nameBoxHeight * 0.55)}px Arial`;
+                // ctx.font = `${Math.floor(nameBoxHeight * 0.55)}px Arial`;
+                ctx.font = `800 ${Math.floor(nameBoxHeight * 0.55)}px Arial`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 const nameTextX = nameBoxX + nameBoxWidth / 2;
@@ -98,8 +100,7 @@ function App() {
           const nameBoxHeight = canvas.height * 0.055;
           ctx.save();
           ctx.fillStyle = '#000';
-          ctx.font = `${Math.floor(nameBoxHeight * 0.55)}px Arial`;
-          ctx.textAlign = 'center';
+          ctx.font = `800 ${Math.floor(nameBoxHeight * 0.55)}px Arial`;
           ctx.textBaseline = 'middle';
           const nameTextX = nameBoxX + nameBoxWidth / 2;
           const verticalOffset = nameBoxHeight * 0.22; // Move text lower
@@ -124,6 +125,36 @@ function App() {
     templateImg.src = '/pass-template.jpg';
   };
 
+  // const updateNamePreview = () => {
+  //   const canvas = canvasRef.current;
+  //   const ctx = canvas.getContext('2d');
+  //   if (canvas && userName) {
+  //     const templateImg = new Image();
+  //     templateImg.crossOrigin = 'anonymous';
+  //     templateImg.onload = () => {
+  //       canvas.width = templateImg.width;
+  //       canvas.height = templateImg.height;
+  //       ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //       ctx.drawImage(templateImg, 0, 0);
+  //       const nameBoxX = canvas.width * 0.25;
+  //       const nameBoxY = canvas.height * 0.575;
+  //       const nameBoxWidth = canvas.width * 0.5;
+  //       const nameBoxHeight = canvas.height * 0.055;
+  //       ctx.save();
+  //       ctx.fillStyle = '#000';
+  //       ctx.font = `${Math.floor(nameBoxHeight * 0.55)}px Arial`;
+  //       ctx.textAlign = 'center';
+  //       ctx.textBaseline = 'middle';
+  //       const nameTextX = nameBoxX + nameBoxWidth / 2;
+  //       const verticalOffset = nameBoxHeight * 0.22; // Move text lower
+  //       const nameTextY = nameBoxY + nameBoxHeight / 2 + verticalOffset; // Lowered a bit
+  //       ctx.fillText(userName.toUpperCase(), nameTextX, nameTextY, nameBoxWidth * 0.92);
+  //       ctx.restore();
+  //     };
+  //     templateImg.src = '/pass-template.jpg';
+  //   }
+  // };
+
   const updateNamePreview = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -141,19 +172,18 @@ function App() {
         const nameBoxHeight = canvas.height * 0.055;
         ctx.save();
         ctx.fillStyle = '#000';
-        ctx.font = `${Math.floor(nameBoxHeight * 0.55)}px Arial`;
+        ctx.font = `600 ${Math.floor(nameBoxHeight * 0.55)}px Arial`; // Updated to extra bold
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         const nameTextX = nameBoxX + nameBoxWidth / 2;
-        const verticalOffset = nameBoxHeight * 0.22; // Move text lower
-        const nameTextY = nameBoxY + nameBoxHeight / 2 + verticalOffset; // Lowered a bit
+        const verticalOffset = nameBoxHeight * 0.22;
+        const nameTextY = nameBoxY + nameBoxHeight / 2 + verticalOffset;
         ctx.fillText(userName.toUpperCase(), nameTextX, nameTextY, nameBoxWidth * 0.92);
         ctx.restore();
       };
       templateImg.src = '/pass-template.jpg';
     }
   };
-
   const downloadPass = () => {
     const canvas = canvasRef.current;
     const link = document.createElement('a');
